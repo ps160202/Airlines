@@ -46,10 +46,19 @@ public class Main {
                     break;
                 }
                 case 2:{
-                    System.out.println("Enter Username: ");
-                    System.out.println("Enter Password: ");
+                    Operator operator = new Operator();
 
-                    //Match them w database, if match found, move ahead else break.
+                    System.out.println("Enter Username: ");
+                    operator.setOperatorName(sc.next());
+                    System.out.println("Enter Password: ");
+                    operator.setPassword(sc.next());
+
+                    if(!operator.authenticate()) {
+                        System.out.println("\nIncorrect Username or Password..!");
+                        break;
+                    }
+                    System.out.println("\nAuthentication Successful..!");
+
                 op:
                     for(;;) {
                         System.out.println("**********The Backend**********");
@@ -111,26 +120,17 @@ public class Main {
                                 break;
                             }
                             case 6: {
-                                System.out.println("Enter Current Password: ");
-                                System.out.println("Enter New Password: ");
-                                System.out.println("Confirm Password: ");
+                                operator.changePassword();
 
                                 break;
                             }
                             case 7: {
-                                System.out.println("Enter ADMIN Password: ");
+                                operator.addOperator();
 
-                                System.out.println("Enter username for new operator: ");
-                                System.out.println("Enter New Password for new operator: ");
-                                System.out.println("Confirm Password for new operator: ");
-
-                                System.out.println("Operator added!");
                                 break;
                             }
                             case 8: {
-                                System.out.println("Enter Admin Password: ");
-
-                                System.out.println("Enter username of operator to be removed: ");
+                                operator.removeOperator();
 
                                 break;
                             }
