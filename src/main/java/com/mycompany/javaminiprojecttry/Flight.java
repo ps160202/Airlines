@@ -475,7 +475,7 @@ public class Flight {
         createConnection();
 
         try {
-            rs = stmt.executeQuery("select *from flights where flightID='" + this.flightId + "';");
+            rs = stmt.executeQuery("select *from flights where flightID='" + fid + "';");
 
             rs.next();
 
