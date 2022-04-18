@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Operator {
     private String operatorName;
     private String password;
-    private static String adminPassword = "123456";
+    private String adminPassword;
     Scanner sc = new Scanner(System.in);
 
     Connection con=null;
@@ -28,6 +28,17 @@ public class Operator {
         }
     }
 
+    public void closeConnection() {
+        try {
+            if(rs != null)
+                rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public String getOperatorName() {
         return operatorName;
     }
@@ -44,14 +55,18 @@ public class Operator {
         this.password = password;
     }
 
-    public static String getAdminPassword() {
-        return adminPassword;
-    }
+    public String getAdminPassword() {
+        try {
+            ResultSet rs = stmt.executeQuery("select *from Operators where Username = 'admin';");
+            rs.next();
+            String adminPassword = rs.getString(2);
 
-    public static void setAdminPassword(String adminPassword) {
-        Operator.adminPassword = adminPassword;
+            return adminPassword;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return "";
+        }
     }
-
 
     public boolean authenticate() {
         try {
@@ -68,28 +83,14 @@ public class Operator {
         return false;
     }
 
-    public void checkFlightInfo(){
-        
-    }
-    
-    public void addFlight(){
 
-    }
-    
-    public void cancelFlight(){
-        
-    }
-    
-    public void modifyFlight(){
-        
-    }
 
     public void changePassword(){
         System.out.print("\nEnter current password: ");
         String pass = sc.next();
         if(!(this.password.equals(pass))) {
             System.out.println("Incorrect Password..!");
-            return;
+            this.changePassword();
         }
 
         System.out.println("Enter New Password for new operator: ");
@@ -114,7 +115,7 @@ public class Operator {
         System.out.print("Enter admin password: ");
         String adminPasswordVerify = sc.next();
 
-        if(!(adminPasswordVerify.equals(adminPassword))) {
+        if(!(adminPasswordVerify.equals(getAdminPassword()))) {
             System.out.println("Incorrect Admin Password..!");
             return;
         }
@@ -143,7 +144,7 @@ public class Operator {
         System.out.print("Enter admin password: ");
         String adminPasswordVerify = sc.next();
 
-        if(!(adminPasswordVerify.equals(adminPassword))) {
+        if(!(adminPasswordVerify.equals(getAdminPassword()))) {
             System.out.println("Incorrect Admin Password..!");
             return;
         }
@@ -169,4 +170,6 @@ public class Operator {
             System.out.println(e);
         }
     }
+
+
 }
