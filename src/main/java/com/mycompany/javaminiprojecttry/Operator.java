@@ -83,8 +83,6 @@ public class Operator {
         return false;
     }
 
-
-
     public void changePassword(){
         System.out.print("\nEnter current password: ");
         String pass = sc.next();

@@ -239,10 +239,6 @@ public class Flight {
         closeConnection();
     }
 
-    public void getFlightInfo(){
-
-    }
-
     public void addFlight(){
         createConnection();
 
@@ -282,10 +278,6 @@ public class Flight {
 
         System.out.println("\nFlight Deleted Successfully!\n");
         closeConnection();
-    }
-
-    public void cancelFlight(){
-
     }
 
     public void modifyFlight(){
@@ -478,7 +470,6 @@ public class Flight {
 
         closeConnection();
     }
-
 
     public Flight getFlightDetails(String fid) {
         createConnection();
