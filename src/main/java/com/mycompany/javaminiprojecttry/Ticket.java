@@ -1,23 +1,18 @@
 package com.mycompany.javaminiprojecttry;
 
+import java.sql.SQLException;
+
 public class Ticket extends Passenger{
-    private String ticketId;
     private String flightNumber;
     private String userName;
     private String dateOfPurchase;
     private String registrationId;
-    private String numberOfSeats;
+    private int numberOfSeats;
     private double maxLuggageWeight;
     private String typeOfSeat;
-    private String price;
+    private double totalCost;
 
-    public String getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
-    }
+    static int ticketID;
 
     public String getFlightNumber() {
         return flightNumber;
@@ -51,11 +46,11 @@ public class Ticket extends Passenger{
         this.registrationId = registrationId;
     }
 
-    public String getNumberOfSeats() {
+    public int getNumberOfSeats() {
         return numberOfSeats;
     }
 
-    public void setNumberOfSeats(String numberOfSeats) {
+    public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
     }
 
@@ -75,15 +70,65 @@ public class Ticket extends Passenger{
         this.typeOfSeat = typeOfSeat;
     }
 
-    public String getPrice() {
-        return price;
+    public double getTotalCost() {
+        return totalCost;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 
-    public void bookTicket() {
+    public void bookTicket(Flight flight) {
+        createConnection();
 
+        try {
+            rs = stmt.executeQuery("select *from data");
+            rs.next();
+            ticketID = rs.getInt(3  );
+
+            stmt.execute("insert into tickets values(" + ticketID +
+                    ", '" + flight.getFlightNumber() +
+                    "', '" + name +
+                    "', " + numberOfSeats +
+                    ", " + maxLuggageWeight +
+                    ", '" + typeOfSeat +
+                    "', " + totalCost + ");");
+
+            ticketID++;
+            stmt.execute("update data set noOfTickets=" + ticketID + ";");
+            System.out.println("\nTICKET BOOKING SUCCESSFUL!\n");
+        } catch (SQLException e){
+            System.out.println(e);
+            return;
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public void calculateFinalCost(Flight flight) {
+        if (((this.getTypeOfSeat()).toLowerCase()).equals("business")) {
+            this.totalCost = flight.getBusinessCost() * this.numberOfSeats;
+            this.maxLuggageWeight = 25 * this.numberOfSeats;
+        }
+        else if (((this.getTypeOfSeat()).toLowerCase()).equals("economy")) {
+            this.totalCost = flight.getEconomyCost() * this.numberOfSeats;
+            this.maxLuggageWeight = 20 * this.numberOfSeats;
+        }
+    }
+
+
+    public void printReceipt(Flight flight) {
+        System.out.println("**************************RECEIPT**************************");
+        System.out.println("Name of Passenger       : " + name);
+        System.out.println("From                    : " + flight.getDeparture());
+        System.out.println("To                      : " + flight.getDestination());
+        System.out.println("Date                    : " + flight.getDepartureDate());
+        System.out.println("Time                    : " + flight.getDepartureTime());
+        System.out.println("Flight Number           : " + flight.getFlightNumber());
+        System.out.println("Number of Tickets       : " + numberOfSeats);
+        System.out.println("Class                   : " + typeOfSeat);
+        System.out.println("Maximum Luggage (kgs)   : " + maxLuggageWeight);
+        System.out.println("Total Amount            : " + totalCost);
+        System.out.println("***********************************************************");
     }
 }

@@ -9,6 +9,7 @@ public class Operator {
     private String adminPassword;
     Scanner sc = new Scanner(System.in);
 
+
     Connection con=null;
     Statement stmt=null;
     ResultSet rs=null;

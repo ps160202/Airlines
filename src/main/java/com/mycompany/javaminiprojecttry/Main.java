@@ -21,25 +21,89 @@ public class Main {
 
             switch (choice) {
                 case 1:{
-                    System.out.println("Enter Name: ");
-                    System.out.println("Enter Age: ");
-                    System.out.println("Enter Phone Number: ");
-                    System.out.println("Enter Email ID: ");
 
-                    System.out.println("Enter city of Departure");
-                    System.out.println("Enter Destination: ");
-                    System.out.println("Enter Date(yyyy-mm-dd): ");
+                    Flight flight = new Flight();
+                    Ticket newTicket = new Ticket();
 
-                    System.out.println("Showing available flight details: ");
-                    //Printing Available Flight Details.
+                    System.out.println("USER DETAILS: ");
 
-                    System.out.println("Enter Flight ID: ");//User enters flight ID of flight he/she wants to book.
-                    System.out.println("Number of Tickets: ");
-                    System.out.println("Type of Tickets: ");
+                    System.out.print("\nEnter Name: ");
+                    newTicket.setName(sc.nextLine());
+                    newTicket.setName(sc.nextLine());
+                    System.out.print("Enter Age: ");
+                    newTicket.setAge(sc.nextInt());
+                    System.out.print("Enter Phone Number: ");
+                    newTicket.setPhoneNumber(sc.next());
+                    System.out.print("Enter Email ID: ");
+                    newTicket.setEmail(sc.next());
 
-                    System.out.println("Buy Tickets(1/0)? ");
+                    newTicket.addPassenger();
 
-                    //print Receipt.
+                    System.out.print("\nEnter city of Departure");
+                    String dep = sc.next();
+                    System.out.print("Enter Destination: ");
+                    String dest = sc.next();
+                    System.out.print("Enter Date(yyyy-mm-dd): ");
+                    String date = sc.next();
+
+                    flight.showFlightDetailsD(dep, dest, date);
+
+                    int book;
+                    System.out.println("Book Flights?(1/0): ");
+                    book = sc.nextInt();
+                    if(book == 0) {
+                        break;
+                    }
+
+                    System.out.print("\nEnter FligthID of flight you want to book: ");
+                    String fID = sc.next();
+
+                    flight = flight.getFlightDetails(fID);
+                    System.out.println("You have Selected this flight: ");
+                    flight.displayFlightDetails();
+
+                    System.out.println("Confirm?(1/0): ");
+                    book = sc.nextInt();
+                    if(book == 0) {
+                        break;
+                    }
+
+                    System.out.println("Baggage allowed per ticket for Business Class = 25 kgs.");
+                    System.out.println("Baggage allowed per ticket for Economy Class = 20 kgs.");
+                    System.out.println("Enter Type of Tickets (Business/Economy): ");
+                    newTicket.setTypeOfSeat(sc.next());
+                    System.out.println("Enter Number of Tickets: ");
+                    newTicket.setNumberOfSeats(sc.nextInt());
+
+                    try {
+                        if (((newTicket.getTypeOfSeat()).toLowerCase()).equals("business")) {
+                            if (flight.getBusinessSeats() < newTicket.getNumberOfSeats()) {
+                                throw new noOfSeatsException("Entered number of seats not available..!");
+                            }
+                        }
+                        else if (((newTicket.getTypeOfSeat()).toLowerCase()).equals("economy")) {
+                            if (flight.getEconomySeats() < newTicket.getNumberOfSeats()) {
+                                throw new noOfSeatsException("Entered number of seats not available..!");
+                            }
+                        }
+                    } catch (noOfSeatsException e) {
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
+                    newTicket.calculateFinalCost(flight);
+                    System.out.println("Total Cost = " + newTicket.getTotalCost());
+                    System.out.println("Max Luggage Weight = " + newTicket.getMaxLuggageWeight());
+
+                    System.out.println("Confirm Booking?(1/0)? ");
+                    book = sc.nextInt();
+                    if(book == 0) {
+                        break;
+                    }
+
+                    flight.updateNoOfTickets(newTicket.getTypeOfSeat(), newTicket.getNumberOfSeats());
+                    newTicket.bookTicket(flight);
+                    newTicket.printReceipt(flight);
 
                     break;
                 }

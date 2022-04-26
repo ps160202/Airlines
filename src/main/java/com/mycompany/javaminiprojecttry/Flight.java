@@ -200,10 +200,11 @@ public class Flight {
         } catch (SQLException e) {
             System.out.println(e);
             return;
+        } finally {
+            closeConnection();
         }
 
         System.out.println("\n*************************************************************\n");
-        closeConnection();
     }
 
     public void displayQueryResult(String query) {
@@ -233,10 +234,11 @@ public class Flight {
         } catch (SQLException e) {
             System.out.println(e);
             return;
+        } finally {
+            closeConnection();
         }
 
         System.out.println("\n*************************************************************\n");
-        closeConnection();
     }
 
     public void addFlight(){
@@ -261,9 +263,9 @@ public class Flight {
         } catch (SQLException e) {
             System.out.println(e);
             return;
+        } finally {
+            closeConnection();
         }
-
-        closeConnection();
     }
 
     public void deleteFlight() {
@@ -274,10 +276,11 @@ public class Flight {
         } catch (SQLException e) {
             System.out.println(e);
             return;
+        } finally {
+            closeConnection();
         }
 
         System.out.println("\nFlight Deleted Successfully!\n");
-        closeConnection();
     }
 
     public void modifyFlight(){
@@ -491,14 +494,64 @@ public class Flight {
             this.businessSeats = rs.getInt(11);
             this.economyCost = rs.getInt(12);
             this.businessCost = rs.getInt(13);
-
-            closeConnection();
+            
             return this;
 
         } catch (SQLException e) {
             System.out.println(e);
-            closeConnection();
             return null;
+        } finally {
+            closeConnection();
+        }
+
+    }
+
+    public void showFlightDetailsD(String dep, String dest, String date) {
+        createConnection();
+        System.out.println("*************************Available Flights*************************\n");
+
+        try {
+            rs = stmt.executeQuery("select *from flights where departure='" + dep + "' and destination='" + dest + "' and departureDate='" + date + "';");
+
+            while(rs.next()) {
+                this.flightId = rs.getString(1);
+                this.flightNumber = rs.getString(2);
+                this.airline = rs.getString(3);
+                this.departure = rs.getString(4);
+                this.destination = rs.getString(5);
+                this.departureDate = rs.getString(6);
+                this.departureTime = rs.getString(7);
+                this.arrivalDate = rs.getString(8);
+                this.arrivalTime = rs.getString(9);
+                this.economySeats = rs.getInt(10);
+                this.businessSeats = rs.getInt(11);
+                this.economyCost = rs.getInt(12);
+                this.businessCost = rs.getInt(13);
+
+                this.displayFlightDetails();
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            return;
+        } finally {
+            closeConnection();
+        }
+
+        System.out.println("\n*************************************************************\n");
+    }
+
+    public void updateNoOfTickets(String typeOfSeat, int numberOfSeats) {
+        createConnection();
+
+        try {
+            if ((typeOfSeat.toLowerCase()).equals("business")) {
+                stmt.execute("update flights set businessSeats = businessSeats-" + numberOfSeats + " where flightID='" + this.flightId + "';");
+            }
+            else if ((typeOfSeat.toLowerCase()).equals("economy")) {
+                stmt.execute("update flights set economySeats = economySeats-" + numberOfSeats + " where flightID='" + this.flightId + "';");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 }
