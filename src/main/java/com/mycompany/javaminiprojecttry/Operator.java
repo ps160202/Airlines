@@ -3,7 +3,7 @@ package com.mycompany.javaminiprojecttry;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Operator {
+public class Operator implements DatabaseConnection {
     private String operatorName;
     private String password;
     private String adminPassword;
@@ -15,6 +15,12 @@ public class Operator {
     ResultSet rs=null;
 
     public Operator() {
+
+    }
+
+
+    @Override
+    public void createConnection() {
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,7 +31,6 @@ public class Operator {
         catch(ClassNotFoundException | SQLException e)
         {
             System.out.println("Error "+e.toString());
-            System.exit(0);
         }
     }
 
@@ -70,6 +75,8 @@ public class Operator {
     }
 
     public boolean authenticate() {
+        createConnection();
+
         try {
             ResultSet rs = stmt.executeQuery("select *from Operators where Username = '" + this.operatorName + "';");
             rs.next();
@@ -85,6 +92,8 @@ public class Operator {
     }
 
     public void changePassword(){
+        createConnection();
+
         System.out.print("\nEnter current password: ");
         String pass = sc.next();
         if(!(this.password.equals(pass))) {
@@ -110,7 +119,8 @@ public class Operator {
     }
 
     public void addOperator(){
-        //Verifying admin password
+        createConnection();
+
         System.out.print("Enter admin password: ");
         String adminPasswordVerify = sc.next();
 
@@ -140,6 +150,8 @@ public class Operator {
     }
 
     public void removeOperator(){
+        createConnection();
+
         System.out.print("Enter admin password: ");
         String adminPasswordVerify = sc.next();
 
