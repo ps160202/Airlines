@@ -3,7 +3,7 @@ package com.mycompany.javaminiprojecttry;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Passenger {
+public class Passenger implements DatabaseConnection{
     String phoneNumber;
     String name;
     String email;

@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 
-public class Flight {
+public class Flight implements DatabaseConnection{
     private String flightId;
     private String flightNumber;
     private String airline;
