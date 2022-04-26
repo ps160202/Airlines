@@ -27,17 +27,23 @@ public class Main {
 
                     System.out.println("USER DETAILS: ");
 
-                    System.out.print("\nEnter Name: ");
-                    newTicket.setName(sc.nextLine());
-                    newTicket.setName(sc.nextLine());
-                    System.out.print("Enter Age: ");
-                    newTicket.setAge(sc.nextInt());
-                    System.out.print("Enter Phone Number: ");
-                    newTicket.setPhoneNumber(sc.next());
                     System.out.print("Enter Email ID: ");
                     newTicket.setEmail(sc.next());
 
-                    newTicket.addPassenger();
+                    if(!newTicket.checkPassenger()) {
+                        System.out.print("\nEnter Name: ");
+                        newTicket.setName(sc.nextLine());
+                        newTicket.setName(sc.nextLine());
+                        System.out.print("Enter Age: ");
+                        newTicket.setAge(sc.nextInt());
+                        System.out.print("Enter Phone Number: ");
+                        newTicket.setPhoneNumber(sc.next());
+
+                        newTicket.addPassenger();
+                    }
+                    else {
+                        newTicket.getPassenger();
+                    }
 
                     System.out.print("\nEnter city of Departure");
                     String dep = sc.next();

@@ -96,4 +96,40 @@ public class Passenger {
             closeConnection();
         }
     }
+
+    public boolean checkPassenger() {
+        createConnection();
+
+        try {
+            rs = stmt.executeQuery("select *from passenger where emailID='" + this.email + "';");
+            if(rs.next()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (SQLException e){
+            System.out.println(e);
+            return false;
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public void getPassenger() {
+        createConnection();
+
+        try {
+            rs = stmt.executeQuery("select *from passenger where emailID='" + this.email + "';");
+            rs.next();
+            this.name = rs.getString(2);
+            this.age = rs.getInt(3);
+            this.phoneNumber = rs.getString(4);
+        } catch (SQLException e){
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+
 }

@@ -84,7 +84,7 @@ public class Ticket extends Passenger{
         try {
             rs = stmt.executeQuery("select *from data");
             rs.next();
-            ticketID = rs.getInt(3  );
+            ticketID = rs.getInt(3);
 
             stmt.execute("insert into tickets values(" + ticketID +
                     ", '" + flight.getFlightNumber() +
