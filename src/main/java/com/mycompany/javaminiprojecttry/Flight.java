@@ -173,7 +173,7 @@ public class Flight {
         System.out.println("_____________________________________________________________");
     }
 
-    public void displayAllFlights() {
+    public void displayFlights() {
         createConnection();
         System.out.println("*************************ALL FLIGHTS*************************\n");
 
@@ -207,7 +207,7 @@ public class Flight {
         System.out.println("\n*************************************************************\n");
     }
 
-    public void displayQueryResult(String query) {
+    public void displayFlights(String query) {
         createConnection();
         System.out.println("****************************FLIGHTS****************************\n");
 

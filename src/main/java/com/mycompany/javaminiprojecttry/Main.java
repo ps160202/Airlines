@@ -148,7 +148,7 @@ public class Main {
                         switch (choice) {
                             case 1: {//View All Flights
                                 Flight flight = new Flight();
-                                flight.displayAllFlights();
+                                flight.displayFlights();
 
                                 break;
                             }
@@ -158,7 +158,7 @@ public class Main {
                                 query = sc.nextLine();
 
                                 Flight flight = new Flight();
-                                flight.displayQueryResult(query);
+                                flight.displayFlights(query);
                                 break;
                             }
                             case 3: {//Add Flight
@@ -211,7 +211,7 @@ public class Main {
                             }
                             case 4: {//Delete Flight
                                 Flight flight = new Flight();
-                                flight.displayAllFlights();
+                                flight.displayFlights();
 
                                 System.out.println("Enter Flight ID of flight to be deleted: ");
                                 flight.setFlightId(sc.next());
@@ -221,7 +221,7 @@ public class Main {
                             }
                             case 5: {//Modify Flight
                                 Flight flight = new Flight();
-                                flight.displayAllFlights();
+                                flight.displayFlights();
 
                                 System.out.println("Enter Flight ID of flight to be modified: ");
 
