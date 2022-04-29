@@ -116,7 +116,6 @@ public class Ticket extends Passenger{
         }
     }
 
-
     public void printReceipt(Flight flight) {
         System.out.println("**************************RECEIPT**************************");
         System.out.println("Name of Passenger       : " + name);

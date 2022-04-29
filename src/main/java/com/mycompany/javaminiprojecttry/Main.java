@@ -45,7 +45,7 @@ public class Main {
                         newTicket.getPassenger();
                     }
 
-                    System.out.print("\nEnter city of Departure");
+                    System.out.print("\nEnter city of Departure: ");
                     String dep = sc.next();
                     System.out.print("Enter Destination: ");
                     String dest = sc.next();
@@ -173,6 +173,7 @@ public class Main {
                                 newFlight.setFlightNumber(sc.next());
 
                                 System.out.print("Enter Airline: ");
+                                newFlight.setAirline(sc.nextLine());
                                 newFlight.setAirline(sc.nextLine());
 
                                 System.out.print("Enter City(Departure): ");

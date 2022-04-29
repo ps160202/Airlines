@@ -131,5 +131,4 @@ public class Passenger implements DatabaseConnection{
             closeConnection();
         }
     }
-
 }

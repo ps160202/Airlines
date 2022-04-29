@@ -19,6 +19,8 @@ public class Flight implements DatabaseConnection{
     private double economyCost;
     private double businessCost;
 
+    static int noOfFlights;
+
     Scanner sc = new Scanner(System.in);
 
     Connection con=null;
@@ -141,7 +143,7 @@ public class Flight implements DatabaseConnection{
         catch(ClassNotFoundException | SQLException e)
         {
             System.out.println("Error "+e.toString());
-            System.exit(0);
+            return;
         }
     }
 
@@ -245,6 +247,10 @@ public class Flight implements DatabaseConnection{
         createConnection();
 
         try {
+            rs = stmt.executeQuery("select *from data");
+            rs.next();
+            noOfFlights = rs.getInt(1);
+
             stmt.execute("insert into flights values('" + this.flightId +
                     "', '" + this.flightNumber +
                     "', '" + this.airline +
@@ -259,6 +265,8 @@ public class Flight implements DatabaseConnection{
                     ", " + this.economyCost +
                     ", " + this.businessCost + ");");
 
+            noOfFlights++;
+            stmt.execute("update data set noOfFlights=" + noOfFlights + ";");
             System.out.println("\nFlight Added Successfully!\n");
         } catch (SQLException e) {
             System.out.println(e);
@@ -272,7 +280,14 @@ public class Flight implements DatabaseConnection{
         createConnection();
 
         try {
+            rs = stmt.executeQuery("select *from data");
+            rs.next();
+            noOfFlights = rs.getInt(1);
+
             stmt.execute("delete from flights where flightID = '" + this.flightId + "';");
+
+            noOfFlights--;
+            stmt.execute("update data set noOfFlights=" + noOfFlights + ";");
         } catch (SQLException e) {
             System.out.println(e);
             return;
@@ -302,6 +317,7 @@ public class Flight implements DatabaseConnection{
             System.out.println("10 - Business Seats");
             System.out.println("11 - Economy Cost");
             System.out.println("12 - Business Cost");
+            System.out.println("13 - Back");
             System.out.println("********************");
 
             System.out.println("\nEnter Choice: ");

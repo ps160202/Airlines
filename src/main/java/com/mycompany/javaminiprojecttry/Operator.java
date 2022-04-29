@@ -9,15 +9,11 @@ public class Operator implements DatabaseConnection {
     private String adminPassword;
     Scanner sc = new Scanner(System.in);
 
+    static int noOfOperators;
 
     Connection con=null;
     Statement stmt=null;
     ResultSet rs=null;
-
-    public Operator() {
-
-    }
-
 
     @Override
     public void createConnection() {
@@ -101,9 +97,9 @@ public class Operator implements DatabaseConnection {
             this.changePassword();
         }
 
-        System.out.println("Enter New Password for new operator: ");
+        System.out.println("Enter New Password for operator: ");
         String tmp1 = sc.next();
-        System.out.println("Confirm Password for new operator: ");
+        System.out.println("Confirm Password for operator: ");
         String tmp2 = sc.next();
         if (!(tmp1.equals(tmp2))) {
             System.out.println("\nPasswords don't match..!\n");
@@ -142,7 +138,14 @@ public class Operator implements DatabaseConnection {
         }
 
         try {
+            rs = stmt.executeQuery("select *from data");
+            rs.next();
+            noOfOperators = rs.getInt(4);
+
             stmt.execute("insert into Operators values('" + newOperator + "', '" + newPassword + "');");
+
+            noOfOperators++;
+            stmt.execute("update data set noOfOperators=" + noOfOperators + ";");
             System.out.println("\nOperator added..!\n");
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -175,7 +178,14 @@ public class Operator implements DatabaseConnection {
                 return;
             }
 
+            rs = stmt.executeQuery("select *from data");
+            rs.next();
+            noOfOperators = rs.getInt(4);
+
             stmt.execute("Delete from Operators where Username = '" + user + "';");
+
+            noOfOperators--;
+            stmt.execute("update data set noOfOperators=" + noOfOperators + ";");
             System.out.println("\nOperator Deleted..!\n");
         } catch (SQLException e) {
             System.out.println(e);
